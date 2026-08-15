@@ -1,0 +1,1103 @@
+<title>The Lens Shortlist</title>
+<style>
+  /* ─────────────────────────────────────────────────────────────────────────
+     THE LENS — candidate shortlist, 15 Aug 2026
+
+     Identity is fixed by D-058: navy/gold, Fraunces/Inter. Tokens below are
+     lifted verbatim from asksidney-web/src/app/globals.css so this page and the
+     funnel cannot drift apart.
+
+     ⚠️ Fraunces and Inter are webfonts and this page must be fully
+     self-contained — no external requests. So it falls back to the SAME stacks
+     globals.css already declares (Georgia for Fraunces, system sans for Inter).
+     That is the site's own documented fallback, not a new type decision.
+
+     ⚠️ The single most important rule on this page: A LINK MUST LOOK LIKE A
+     LINK. globals.css:438 records this biting the funnel once already —
+     Tailwind preflight sets `a { color: inherit; text-decoration: inherit }`
+     and an inline link rendered as plain body text, "present, and not
+     recognisable as a link to anybody." Every post link here is gold,
+     underlined, carries a ↗ glyph, and is announced to screen readers.
+     ───────────────────────────────────────────────────────────────────────── */
+
+  :root {
+    --field: #0a1522;
+    --navy: #0d1b2a;
+    --surface: #13263a;
+    --gold: #e8b94a;
+    --gold-dark: #241a05;
+    --text: #f4f1e8;
+    --muted: #a8b3c0;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --green: #4caf7d;
+    --amber-wash: rgba(232, 185, 74, 0.06);
+    --amber-edge: rgba(232, 185, 74, 0.24);
+
+    --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --ease: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint */
+
+    /* Semantic z-scale. Never arbitrary values. */
+    --z-rail: 10;
+    --z-topbar: 20;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+
+  body {
+    /* Painted explicitly. The viewer's own theme ground shows through a
+       transparent body, and this design commits to one look. */
+    background: var(--field);
+    background-image: linear-gradient(180deg, var(--field) 0%, var(--navy) 62%, var(--field) 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--gold); color: var(--gold-dark); }
+
+  /* ── Shell ───────────────────────────────────────────────────────────── */
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 64px) clamp(18px, 4vw, 40px) clamp(56px, 10vw, 100px);
+  }
+
+  @media (min-width: 1000px) {
+    .shell {
+      display: grid;
+      grid-template-columns: 186px minmax(0, 1fr);
+      gap: 56px;
+      align-items: start;
+    }
+    .masthead, .doc { grid-column: 2; }
+    .rail { grid-column: 1; grid-row: 1 / span 2; }
+  }
+
+  .doc { max-width: 70ch; }
+
+  /* ── Masthead ────────────────────────────────────────────────────────── */
+
+  .masthead { margin-bottom: clamp(38px, 7vw, 58px); max-width: 70ch; }
+
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+  }
+  .stamp::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    /* Ceiling well under the 6rem shout line; this is a document, not a hero. */
+    font-size: clamp(34px, 6.6vw, 56px);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    text-wrap: balance;
+    margin-bottom: 18px;
+  }
+  h1 em { font-style: normal; color: var(--gold); }
+
+  .lede {
+    font-size: clamp(16.5px, 2.2vw, 18.5px);
+    line-height: 1.58;
+    color: var(--text);
+    max-width: 46ch;
+    text-wrap: pretty;
+    margin-bottom: 20px;
+  }
+
+  .byline {
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    max-width: 46ch;
+  }
+  .byline b { color: var(--text); font-weight: 600; }
+
+  /* ── Handling notice ─────────────────────────────────────────────────────
+     Not decoration. This page carries named members' verbatim words out of a
+     members-only community, so it says so, once, at the top. Full border and
+     a tinted ground — never a side stripe. */
+
+  .notice {
+    margin: 26px 0 0;
+    padding: 16px 18px;
+    background: var(--amber-wash);
+    border: 1px solid var(--amber-edge);
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 58ch;
+  }
+  .notice b { color: var(--gold); font-weight: 700; }
+  .notice strong { color: var(--text); font-weight: 600; }
+
+  /* ── Sticky rail ─────────────────────────────────────────────────────── */
+
+  .rail { display: none; }
+
+  @media (min-width: 1000px) {
+    .rail {
+      display: block;
+      position: sticky;
+      top: 40px;
+      z-index: var(--z-rail);
+      font-size: 13px;
+    }
+    .rail h2 {
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .rail ol { list-style: none; counter-reset: r; }
+    .rail li { counter-increment: r; }
+    .rail a {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      padding: 6px 0;
+      color: var(--muted);
+      text-decoration: none;
+      line-height: 1.35;
+      transition: color 0.18s var(--ease);
+    }
+    .rail a::before {
+      content: counter(r);
+      color: var(--gold);
+      font-family: var(--serif);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.55;
+      transition: opacity 0.18s var(--ease);
+    }
+    .rail a:hover, .rail a:focus-visible { color: var(--text); }
+    .rail a:hover::before, .rail a:focus-visible::before { opacity: 1; }
+    .rail a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 3px; }
+    .rail .rail-tail {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+    /* The tail entries are not part of the ranked eight, so they carry no
+       numeral and reclaim the counter column. */
+    .rail .rail-tail ul { list-style: none; }
+    .rail .rail-tail a { grid-template-columns: 1fr; }
+    .rail .rail-tail a::before { content: none; }
+  }
+
+  /* ── Document typography ─────────────────────────────────────────────── */
+
+  h2.sec {
+    font-family: var(--serif);
+    font-size: clamp(21px, 3.2vw, 26px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+    text-wrap: balance;
+    margin-bottom: 14px;
+  }
+
+  .block { margin-bottom: clamp(46px, 8vw, 76px); }
+
+  .doc p {
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: var(--muted);
+    text-wrap: pretty;
+    margin-bottom: 14px;
+  }
+  .doc p:last-child { margin-bottom: 0; }
+  .doc p strong { color: var(--text); font-weight: 600; }
+
+  /* ── Live state table ────────────────────────────────────────────────── */
+
+  /* Wide content scrolls inside its own container so the page body never
+     scrolls sideways. The table measures well inside a phone today; the guard
+     is here so adding a column can't silently break the page instead. */
+  .state-scroll { overflow-x: auto; margin-top: 18px; }
+
+  .state {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .state caption {
+    text-align: left;
+    font-size: 12.5px;
+    color: var(--muted);
+    padding-bottom: 12px;
+  }
+  .state th, .state td {
+    text-align: left;
+    padding: 13px 14px 13px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .state thead th {
+    font-size: 10.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    padding-bottom: 9px;
+  }
+  .state tbody th { font-weight: 500; color: var(--muted); }
+  .state .now {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.1;
+  }
+  .state .then { color: var(--muted); opacity: 0.75; }
+  .state .delta { color: var(--green); font-weight: 600; font-size: 14px; }
+  .state tr:last-child th, .state tr:last-child td { border-bottom: none; }
+
+  /* ── Criteria ────────────────────────────────────────────────────────── */
+
+  .criteria { list-style: none; counter-reset: c; margin-top: 20px; }
+  .criteria li {
+    counter-increment: c;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 4px 14px;
+    padding: 15px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15.5px;
+    line-height: 1.62;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  .criteria li:last-child { border-bottom: 1px solid var(--line); }
+  .criteria li::before {
+    content: counter(c);
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+  }
+  .criteria b { color: var(--text); font-weight: 600; }
+
+  /* ── Candidate entries ───────────────────────────────────────────────────
+     A ranked sequence, so the numerals carry real information — the ranking is
+     the point of the document, not scaffolding above every heading. */
+
+  .entry {
+    padding: clamp(26px, 4.5vw, 34px) 0;
+    border-top: 1px solid var(--line);
+    transition: border-color 0.25s var(--ease);
+  }
+  .entry:last-of-type { border-bottom: 1px solid var(--line); }
+  .entry:hover { border-top-color: var(--line-strong); }
+
+  .entry-head {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 2px 16px;
+    align-items: baseline;
+  }
+  @media (min-width: 620px) {
+    .entry-head { grid-template-columns: 54px 1fr; gap: 2px 20px; }
+  }
+
+  .rank {
+    font-family: var(--serif);
+    font-size: clamp(26px, 4.4vw, 34px);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.62;
+    transition: opacity 0.25s var(--ease);
+  }
+  .entry:hover .rank, .entry:focus-within .rank { opacity: 1; }
+
+  .entry-body { grid-column: 2; }
+
+  h3.who {
+    font-size: clamp(17px, 2.6vw, 20px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.008em;
+    color: var(--text);
+    text-wrap: balance;
+    margin-bottom: 3px;
+  }
+  h3.who .post-title { font-style: italic; color: var(--muted); font-weight: 600; }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    font-size: 12.5px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 18px;
+  }
+  .meta .dot { opacity: 0.4; }
+  .meta .hot { color: var(--gold); font-weight: 700; }
+  .meta .cold { color: var(--text); font-weight: 700; }
+
+  /* Pull-quote: the member's own words, which are the substance of the page. */
+  blockquote {
+    margin: 0 0 18px;
+    padding: 0 0 0 20px;
+    position: relative;
+    font-family: var(--serif);
+    font-size: clamp(16px, 2.5vw, 18.5px);
+    line-height: 1.5;
+    color: var(--text);
+    font-style: italic;
+    text-wrap: pretty;
+  }
+  /* A 1px hairline — the rule bans coloured stripes >1px as accents, and this
+     is a quotation mark's job, at the minimum weight. */
+  blockquote::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.28em; bottom: 0.18em;
+    width: 1px;
+    background: var(--amber-edge);
+  }
+  blockquote .cut { color: var(--muted); font-style: normal; }
+
+  .why { font-size: 15.5px; line-height: 1.68; color: var(--muted); text-wrap: pretty; margin-bottom: 14px; }
+  .why:last-of-type { margin-bottom: 0; }
+  .why strong { color: var(--text); font-weight: 600; }
+  .why b { color: var(--gold); font-weight: 700; }
+
+  .flag {
+    margin: 18px 0 0;
+    padding: 14px 16px;
+    background: var(--amber-wash);
+    border: 1px solid var(--amber-edge);
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.62;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  .flag b { color: var(--gold); font-weight: 700; }
+  .flag strong { color: var(--text); font-weight: 600; }
+
+  /* ── THE LINK AFFORDANCE ─────────────────────────────────────────────────
+     Two tiers, both unmistakable:
+       a.post  — the standing action row. Reads as a door.
+       a.inline — gold + underlined + ↗ inside prose.
+     Nothing here inherits colour. That is the whole point. */
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  a.post {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;              /* touch target, stated so tightening fails visibly */
+    padding: 11px 16px;
+    border-radius: 11px;
+    background: var(--surface);
+    border: 1px solid var(--amber-edge);
+    color: var(--gold);
+    font-size: 14.5px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(232, 185, 74, 0.45);
+    transition: background 0.2s var(--ease), border-color 0.2s var(--ease),
+                transform 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
+  }
+  a.post::after {
+    content: "↗";
+    font-size: 15px;
+    line-height: 1;
+    text-decoration: none;
+    transition: transform 0.25s var(--ease);
+  }
+  a.post:hover, a.post:focus-visible {
+    background: rgba(232, 185, 74, 0.12);
+    border-color: var(--gold);
+    text-decoration-color: var(--gold);
+    transform: translateY(-2px);
+  }
+  a.post:hover::after, a.post:focus-visible::after { transform: translate(2px, -2px); }
+  a.post:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  a.post .slug {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  /* There is deliberately NO inline-prose link style here. Every link on this
+     page is an `a.post` action row, because the one thing the brief asked for
+     is that a link be unmistakable — and a gold word inside a gold-accented
+     paragraph is the weaker signal. If prose links are ever added, give them
+     their own rule; don't quietly widen a.post to cover them. */
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  /* ── Runner-up ───────────────────────────────────────────────────────── */
+
+  .runner {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: clamp(22px, 4vw, 28px);
+    margin-top: 22px;
+  }
+  .runner h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+  .runner h3 .post-title { font-style: italic; color: var(--muted); font-weight: 600; }
+
+  /* ── Exclusions ──────────────────────────────────────────────────────── */
+
+  .excl { list-style: none; margin-top: 20px; }
+  .excl li {
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  .excl li:last-child { border-bottom: 1px solid var(--line); }
+  .excl h3 {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+  .excl b { color: var(--gold); font-weight: 700; }
+  .excl strong { color: var(--text); font-weight: 600; }
+
+  /* ── Waiting members ─────────────────────────────────────────────────── */
+
+  .waiting { list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+  .waiting li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: var(--surface);
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .waiting b { color: var(--text); font-weight: 600; }
+  .waiting .ago { font-size: 12.5px; opacity: 0.75; font-variant-numeric: tabular-nums; }
+
+  /* ── Foot ────────────────────────────────────────────────────────────── */
+
+  .foot {
+    margin-top: clamp(48px, 9vw, 80px);
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+  .foot b { color: var(--text); font-weight: 600; }
+  /* The repo path is one unbreakable token — no spaces, and `/` and `-` are not
+     default break opportunities. Measured min-content 420px, which overflows a
+     375px phone. `anywhere` lets it wrap mid-path rather than pushing the page
+     sideways; the viewport is part of the design. */
+  .foot code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1.5px 5px;
+    color: var(--gold);
+    overflow-wrap: anywhere;
+  }
+
+  /* ── Motion ──────────────────────────────────────────────────────────────
+     A short load choreography on the masthead only. Everything is visible by
+     default and animates from `both`-filled keyframes, so a headless render or
+     a hidden tab still ships the full page. */
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .masthead > * { animation: rise 0.55s var(--ease) both; }
+  .masthead > :nth-child(2) { animation-delay: 0.05s; }
+  .masthead > :nth-child(3) { animation-delay: 0.10s; }
+  .masthead > :nth-child(4) { animation-delay: 0.15s; }
+  .masthead > :nth-child(5) { animation-delay: 0.20s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .masthead > * { animation: none; }
+    a.post, a.post::after, a.inline, .rank, .entry, .rail a, .rail a::before {
+      transition: none;
+    }
+    a.post:hover, a.post:focus-visible { transform: none; }
+    a.post:hover::after, a.post:focus-visible::after { transform: none; }
+  }
+</style>
+
+<div class="shell">
+
+  <nav class="rail" aria-label="The eight candidates">
+    <h2>The eight</h2>
+    <ol>
+      <li><a href="#c1">Rosetta Kimatu</a></li>
+      <li><a href="#c2">Omiyang William</a></li>
+      <li><a href="#c3">David Mwangi</a></li>
+      <li><a href="#c4">Kevin Kirwa</a></li>
+      <li><a href="#c5">Remy Machària</a></li>
+      <li><a href="#c6">Christine Gitau</a></li>
+      <li><a href="#c7">Kenfrancis Burugu</a></li>
+      <li><a href="#c8">Joash Rogena</a></li>
+    </ol>
+    <div class="rail-tail">
+      <ul>
+        <li><a href="#runner">Runner-up</a></li>
+        <li><a href="#exclusions">Do not pick</a></li>
+        <li><a href="#waiting">Waiting, unanswered</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="masthead">
+    <div class="stamp">The Lens · Tuesday anchor</div>
+    <h1>Eight members worth <em>looking at</em></h1>
+    <p class="lede">
+      The Lens is one post a week where you break down one member's post — the
+      member becomes the lesson. It has run once. Here are the eight best
+      candidates currently sitting in the feed, ranked, with the angle for each.
+    </p>
+    <p class="byline">
+      Read live from <b>ASKSIDNEY — FIX THE TRADER</b> on <b>15 August 2026</b> ·
+      pages 1–3 of the feed, <b>90 of 219 posts</b>, back roughly ten days ·
+      counts are likes then comments as the feed rendered them that day.
+    </p>
+    <p class="notice">
+      <b>For Sidney. Please don't forward this one.</b> It carries members' names
+      and their words quoted verbatim out of a members-only community — including
+      one member's losing streak and another's account losses. Inside Skool
+      that's already shared; on a link it isn't.
+      <strong>If a breakdown is going to travel onto TikTok or a card, that
+      member's consent gets asked and answered first.</strong>
+    </p>
+  </header>
+
+  <main class="doc">
+
+    <!-- ── Live state ─────────────────────────────────────────────────── -->
+    <section class="block" aria-labelledby="h-state">
+      <h2 class="sec" id="h-state">Where the room is, today</h2>
+      <p>
+        The community has moved fast since the 9 August audit — and the posting
+        has outrun the reading, which is the case <em>for</em> the Lens rather
+        than against it.
+      </p>
+      <div class="state-scroll">
+      <table class="state">
+        <caption>Read three times over the session. Never more than one member online.</caption>
+        <thead>
+          <tr><th scope="col">&nbsp;</th><th scope="col">15 Aug</th><th scope="col">9–11 Aug</th><th scope="col">Change</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Members</th>
+            <td class="now">333</td>
+            <td class="then">278</td>
+            <td class="delta">+55 in four days</td>
+          </tr>
+          <tr>
+            <th scope="row">Posts</th>
+            <td class="now">219</td>
+            <td class="then">132</td>
+            <td class="delta">+87</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- ── Criteria ───────────────────────────────────────────────────── -->
+    <section class="block" aria-labelledby="h-how">
+      <h2 class="sec" id="h-how">How these were chosen</h2>
+      <p>
+        The Lens needs a post you can <strong>break down</strong>, not one you
+        can merely praise. Four filters:
+      </p>
+      <ol class="criteria">
+        <li><span><b>A decision under pressure</b>, named specifically — not a maxim.</span></li>
+        <li><span><b>A visible before and after</b>, ideally with the member's own number.</span></li>
+        <li><span><b>Something left to say.</b> A post that already lands its own point gives the breakdown nothing to add.</span></li>
+        <li><span><b>Low engagement is a feature, not a disqualifier</b> — the Lens is how a good post the room walked past finally gets seen.</span></li>
+      </ol>
+    </section>
+
+    <!-- ── The eight ──────────────────────────────────────────────────── -->
+    <section class="block" aria-labelledby="h-eight">
+      <h2 class="sec" id="h-eight">The shortlist — eight, ranked</h2>
+
+      <!-- 1 -->
+      <article class="entry" id="c1">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">1</div>
+          <div class="entry-body">
+            <h3 class="who">Rosetta Kimatu — <span class="post-title">20 trade sample-Trade 5/20</span></h3>
+            <p class="meta">
+              <span>2 days ago</span><span class="dot">·</span>
+              <span>Journalling</span><span class="dot">·</span>
+              <span><span class="hot">6</span> likes · <span class="hot">6</span> comments</span>
+            </p>
+            <blockquote>
+              My checklist now has 16 items, and on today's trade, I scored
+              13/16<span class="cut">…</span>a huge improvement from my previous
+              score of 3/12. That was the real win today.
+            </blockquote>
+            <p class="why">
+              <strong>Why it is first: she made discipline a number.</strong>
+              Everything else in the feed <em>asserts</em> that the trader is
+              being fixed. This measures it, on her own instrument, and reports
+              the earlier bad score without being asked.
+            </p>
+            <p class="why">
+              The breakdown writes itself — what a checklist score is for, why
+              13/16 beats a winning trade, and why publishing the 3/12 is the
+              braver half. She is also running the sample
+              <strong>publicly and serially</strong> (Trade 5/20, then another a
+              day later), so one Lens on her seeds a thread the room can follow
+              all the way to trade 20.
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/20-trade-sample-trade-520" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="entry" id="c2">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">2</div>
+          <div class="entry-body">
+            <h3 class="who">Omiyang William — <span class="post-title">Learning to Sit Through the Trade</span></h3>
+            <p class="meta">
+              <span>2 days ago</span><span class="dot">·</span>
+              <span>Journalling</span><span class="dot">·</span>
+              <span><span class="cold">2</span> likes · <span class="cold">1</span> comment</span>
+            </p>
+            <blockquote>
+              Price went up to almost 4R in my favor, and I watched it come all
+              the way back to my entry<span class="cut">…</span> I'm still
+              holding because, according to my plan, the trade hasn't been
+              invalidated yet.
+            </blockquote>
+            <p class="why">
+              <strong>The only candidate where the honest breakdown is not a
+              compliment.</strong> He is transparent, he is following a written
+              plan, and he may still be wrong. <em>"Not invalidated"</em> is a
+              real rule — and it is also the exact sentence a trader uses to
+              justify hope.
+            </p>
+            <p class="why">
+              You can hold both: name the discipline, then ask the question the
+              post doesn't — was there a trade-management rule for 4R, and if
+              not, is <em>that</em> the gap rather than the patience? That makes
+              it a Lens rather than a pat on the back, and it shows the room the
+              format is safe to be in. You can be examined here without being
+              embarrassed.
+            </p>
+            <p class="flag">
+              <b>⚠ Timing.</b> Omiyang is the <strong>D-095 CM candidate, still
+              under review</strong>, and the standing recommendation is to start
+              him with no title and no announcement. A Lens on his post is
+              consistent with that — he is already the most active member by a
+              wide margin — but it is not nothing.
+              <strong>Run this one second or third, not first.</strong>
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/learning-to-sit-through-the-trade" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="entry" id="c3">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">3</div>
+          <div class="entry-body">
+            <h3 class="who">David Mwangi — <span class="post-title">My Journey With My First Prop Account</span></h3>
+            <p class="meta">
+              <span>9 days ago</span><span class="dot">·</span>
+              <span>Propfirm Testimonials</span><span class="dot">·</span>
+              <span><span class="hot">5</span> likes · <span class="hot">13</span> comments</span>
+            </p>
+            <blockquote>
+              I had promised myself to become disciplined, but my trading history
+              told a different story.
+            </blockquote>
+            <p class="why">
+              <strong>The highest-engagement member post in the window — 13
+              comments, more than any other.</strong> A complete arc: he bought
+              the account as a promise to himself, the first week went well, he
+              hit −7%, the emotions took over, −9%, he stopped, audited himself,
+              listed five old habits by name, worked it back to −4% —
+              <strong>and still lost it.</strong> He is proud of it anyway, and
+              he is specific about why.
+            </p>
+            <p class="why">
+              Nine days old is the one mark against it. Against that: it is the
+              best proof the community has that the framing survives a
+              <em>failure</em>, the room already voted with 13 comments, and it
+              has a real story arc — which matters if a Lens is ever going to
+              double as something shareable.
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/my-journey-with-my-first-prop-account" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="entry" id="c4">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">4</div>
+          <div class="entry-body">
+            <h3 class="who">Kevin Kirwa — <span class="post-title">Intro</span></h3>
+            <p class="meta">
+              <span>3 days ago</span><span class="dot">·</span>
+              <span>Intros</span><span class="dot">·</span>
+              <span><span class="cold">2</span> likes · <span class="cold">0</span> comments</span>
+            </p>
+            <blockquote>
+              Funny enough, in that whole time, I have never let ANY of my trades
+              hit TP.
+            </blockquote>
+            <p class="why">
+              <strong>One sentence that diagnoses a whole trader — and nobody
+              has replied to it.</strong> Two likes, zero comments, three days.
+              He then names the second half himself: he sees a perfect setup,
+              tells himself <em>maybe this one loses</em>, and it runs without
+              him.
+            </p>
+            <p class="why">
+              Best value-to-attention ratio in the feed. It is also a brand-new
+              member's intro, so the Lens does double duty — the breakdown
+              <em>is</em> the welcome, and it shows every lurker that writing
+              your weakness honestly is what gets you answered by the mentor.
+            </p>
+            <p class="flag">
+              <b>⚠ He names a money figure.</b> Standing rule is R-multiples,
+              never money amounts. <strong>The breakdown must not repeat the
+              number, and it must not travel onto a card or a TikTok carrying
+              it.</strong>
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/intro" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="entry" id="c5">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">5</div>
+          <div class="entry-body">
+            <h3 class="who">Remy Machària — <span class="post-title">LOOSING STREAK,</span></h3>
+            <p class="meta">
+              <span>4 days ago</span><span class="dot">·</span>
+              <span>Psychology</span><span class="dot">·</span>
+              <span><span class="hot">4</span> likes · <span class="hot">3</span> comments</span>
+            </p>
+            <blockquote>
+              I have decided to freeze all live execution for the next 5
+              days<span class="cut">…</span> I'll audit myself as a scientist and
+              not a victim.
+            </blockquote>
+            <p class="why">
+              A member imposing his own circuit breaker, mid-streak, unprompted —
+              and writing the re-entry conditions <em>before</em> he needs them:
+              checklist, pre-decided entries, a lot size
+              <em>"that won't make my heart race."</em> He closes with
+              <em>"to put out a fire, you must first step back from the
+              flames,"</em> which is a quote card on its own.
+            </p>
+            <p class="why">
+              Remy is one of the <strong>six confirmed badge earners</strong>, so
+              the recognition lands on someone the record already supports.
+            </p>
+            <p class="flag">
+              <b>⚠ Read the opening line before featuring it.</b> It begins
+              <em>"which is making me feel sick."</em> Almost certainly
+              frustration rather than distress — the rest of the post is calm and
+              constructive, which is the opposite of a distress signature. But
+              that call belongs to a person, not a process.
+              <strong>Worth one direct message first</strong>, both to check and
+              because featuring somebody's losing streak without asking is the
+              one case here where consent genuinely matters.
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/loosing-streak" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="entry" id="c6">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">6</div>
+          <div class="entry-body">
+            <h3 class="who">Christine Gitau — <span class="post-title">And progress…</span> — run it <em>with</em> her intro</h3>
+            <p class="meta">
+              <span>1 day ago</span><span class="dot">·</span>
+              <span>Journalling</span><span class="dot">·</span>
+              <span><span class="cold">1</span> like · <span class="cold">2</span> comments</span>
+              <span class="dot">·</span><span>intro: 3 days ago, 5 likes · 0 comments</span>
+            </p>
+            <blockquote>
+              My hand wanted to click that button, but my mind kept saying no,
+              this is not your plan.
+            </blockquote>
+            <p class="why">
+              <strong>The strongest structural pick, because the before and the
+              after are both on the page, by the same person, two days
+              apart.</strong> The intro is seven years of unprofitability and
+              three named weaknesses — risk management, strategy hopping,
+              greed / impatience / desperation, <em>"the accounts I have blown
+              are so many I lost count."</em>
+            </p>
+            <p class="why">
+              Then, forty-eight hours later, four lines about not pressing the
+              button on a setup that scored zero on her checklist. No other
+              candidate lets the Lens show the mechanism that fast. Her third
+              post that week — holding a position to <strong>7R</strong> without
+              touching the stop — is compliant on the R-multiple rule and can
+              close the breakdown.
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/and-progress" target="_blank" rel="noopener">
+                <span>Open <span class="slug">And progress…</span></span><span class="sr-only"> on Skool (opens in a new tab)</span>
+              </a>
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/intro-dear-future-me" target="_blank" rel="noopener">
+                <span>Open <span class="slug">Intro — Dear Future Me…</span></span><span class="sr-only"> on Skool (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7 -->
+      <article class="entry" id="c7">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">7</div>
+          <div class="entry-body">
+            <h3 class="who">Kenfrancis Burugu — <span class="post-title">A trade I am proud of</span></h3>
+            <p class="meta">
+              <span>3 days ago</span><span class="dot">·</span>
+              <span>Psychology</span><span class="dot">·</span>
+              <span><span class="cold">2</span> likes · <span class="cold">2</span> comments</span>
+            </p>
+            <blockquote>
+              The emotion of being satisfied even after a loss is one that shows
+              that I am growing.
+            </blockquote>
+            <p class="why">
+              Short, and it inverts the scoreboard in one move. The whole
+              community is currently posting <em>"no trade today"</em> and
+              <em>"I waited."</em> This is the harder version — a loss taken
+              correctly, and satisfaction reported anyway. Good for a week when
+              the Lens should say something other than <em>patience is
+              good</em>.
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/a-trade-i-am-proud-of" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8 -->
+      <article class="entry" id="c8">
+        <div class="entry-head">
+          <div class="rank" aria-hidden="true">8</div>
+          <div class="entry-body">
+            <h3 class="who">Joash Rogena — <span class="post-title">FIXING THE TRADER</span></h3>
+            <p class="meta">
+              <span>3 days ago</span><span class="dot">·</span>
+              <span>The Lens 🔎</span><span class="dot">·</span>
+              <span><span class="cold">0</span> likes · <span class="cold">0</span> comments</span>
+            </p>
+            <p class="why">
+              The full cautionary arc in one paragraph: funded half his savings
+              after a month of learning, made 30% on day one guessing entries,
+              <em>"felt like a god,"</em> blew it, refunded, blew it revenge
+              trading, bought a challenge, blew that in two days, logged off
+              intending to quit — and came back a week later because he missed
+              the charts.
+            </p>
+            <p class="why">
+              <strong>Zero likes. Zero comments. And he filed it in the Lens
+              category himself</strong> — which reads exactly like a member
+              asking to be looked at. Nobody has looked. Featuring it costs one
+              post, closes that, and it is the most complete warning in the feed.
+            </p>
+            <div class="actions">
+              <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/fixing-the-trader-3" target="_blank" rel="noopener">
+                Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ── Runner-up ──────────────────────────────────────────────────── -->
+    <section class="block" id="runner" aria-labelledby="h-runner">
+      <h2 class="sec" id="h-runner">Runner-up</h2>
+      <div class="runner">
+        <h3>Aineruhanga Peter — <span class="post-title">Psychology (The Urge/Compulsion)</span></h3>
+        <p class="meta">10 days ago · Psychology · <span class="hot">3</span> likes · <span class="hot">6</span> comments</p>
+        <p class="why">
+          <em>"The compulsion or urge to open a position is fading away day by
+          day, it's 8 days now… the urge has been my worst enemy for the past 4
+          years."</em> A counter, which is the Lens-friendly unit, and eight days
+          against four years is a strong ratio. Held back only for age.
+        </p>
+        <div class="actions">
+          <a class="post" href="https://www.skool.com/asksidney-fix-the-trader-2642/psychology-the-urgecompulsion" target="_blank" rel="noopener">
+            Open the post on Skool<span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Exclusions ─────────────────────────────────────────────────── -->
+    <section class="block" id="exclusions" aria-labelledby="h-excl">
+      <h2 class="sec" id="h-excl">Do not pick, and why</h2>
+      <ul class="excl">
+        <li>
+          <h3>The giveaway entries</h3>
+          Dennis Mwoha, Filan Wamalwa, Brian Mulutu, Eric Nyokabi, Steve Ngewa,
+          Kariuki Mesheck, and Ocapa Jonah's <em>Opportunity To A Five Figure
+          trader</em>. They are <b>applications, not reflections</b> — and
+          featuring one during a live giveaway reads as announcing a winner.
+          There are eight accounts and far more applicants.
+        </li>
+        <li>
+          <h3>Anything naming an account size</h3>
+          Standing rule: <b>R-multiples, never money amounts.</b> Your own
+          <em>Maureen cleared Phase 1</em> post handles this correctly — it
+          explains that the $10,000 is the size of the challenge account and
+          <strong>not money she made or was paid</strong>. That qualifier has to
+          travel with the number every single time, and it is a claim.
+        </li>
+        <li>
+          <h3>Rabbeca Musyoka — <em>This has hit me hard today</em></h3>
+          It restates your own framing back to you. Nothing to break down.
+        </li>
+        <li>
+          <h3>Ocapa Jonah's volume</h3>
+          Ten-plus posts in the window, several of them strong
+          (<em>Sitting is not waiting</em>, <em>Sleepless questions</em>). But
+          featuring the highest-frequency poster reads as rewarding volume.
+          <strong>Hold for a later week</strong> — the material is good.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Waiting ────────────────────────────────────────────────────── -->
+    <section class="block" id="waiting" aria-labelledby="h-wait">
+      <h2 class="sec" id="h-wait">Two members waiting, unanswered</h2>
+      <p>
+        Not Lens material. They belong in the sweep — but they were in front of
+        me, so they are written down rather than lost.
+      </p>
+      <ul class="waiting">
+        <li>
+          <b>Waleed Khalid</b>
+          <span>— asks whether setups are thin because of the Iran / USA situation.</span>
+          <span class="ago">8 days</span>
+        </li>
+        <li>
+          <b>Teresa wanjiku Maina</b>
+          <span>— <em>"Teach me a strategy."</em></span>
+          <span class="ago">4 days</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="foot">
+      <p>
+        <b>Source:</b> the full working document, including three findings about
+        the Skool interface itself and the gates that apply before any of this
+        ships, is in the repo at
+        <code>06-community-brand-ops/LENS-CANDIDATES-15AUG.md</code>.
+      </p>
+    </footer>
+
+  </main>
+</div>
